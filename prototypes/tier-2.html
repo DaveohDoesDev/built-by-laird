@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Built by Laird — Tier 2 (Editorial studio)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1E8;          /* warm off-white */
+    --ink: #161310;
+    --ink-soft: #6B5F52;
+    --accent: #C75D2C;      /* burnt orange */
+    --accent-deep: #9B4520;
+    --rule: rgba(22, 19, 16, 0.12);
+    --rule-soft: rgba(22, 19, 16, 0.06);
+
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+  a { color: inherit; }
+
+  /* === Top index === */
+  .topbar {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: baseline;
+    padding: 28px 40px;
+    border-bottom: 1px solid var(--rule);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 50;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .topbar-left { color: var(--ink); }
+  .topbar-mark {
+    font-family: var(--font-display);
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    font-weight: 400;
+    text-align: center;
+  }
+  .topbar-mark em { color: var(--accent); font-style: italic; }
+  .topbar-right { text-align: right; color: var(--ink-soft); display: flex; gap: 24px; justify-content: end; }
+  .topbar-right a { text-decoration: none; }
+  .topbar-right a:hover { color: var(--accent); }
+
+  /* === Hero / manifesto === */
+  .hero {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    padding: 120px 40px 80px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .hero-eyebrow {
+    grid-column: 1 / 3;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: 18px;
+  }
+  .hero-headline {
+    grid-column: 3 / 13;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(64px, 11vw, 200px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .hero-headline em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hero-meta {
+    grid-column: 1 / 5;
+    margin-top: 80px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    line-height: 2;
+  }
+  .hero-meta-row { display: flex; justify-content: space-between; max-width: 320px; }
+  .hero-sub {
+    grid-column: 7 / 13;
+    margin-top: 80px;
+    font-size: 22px;
+    line-height: 1.45;
+    max-width: 540px;
+    color: var(--ink);
+  }
+  .hero-sub em {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-style: italic;
+    font-size: 1.05em;
+  }
+
+  /* === Selected work — editorial spreads === */
+  .work-section { padding: 40px 0; }
+  .work-eyebrow {
+    padding: 60px 40px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .work-eyebrow h2 {
+    font-family: var(--font-display);
+    font-size: 36px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    text-transform: none;
+    font-weight: 400;
+  }
+  .work-eyebrow h2 em { color: var(--accent); font-style: italic; }
+
+  .work-entry {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    padding: 80px 40px;
+    border-top: 1px solid var(--rule);
+    align-items: start;
+    position: relative;
+    transition: background 0.4s var(--ease);
+    text-decoration: none;
+    color: inherit;
+    display: grid;
+  }
+  .work-entry:hover {
+    background: rgba(199, 93, 44, 0.04);
+  }
+  .work-entry:hover .work-entry-cta { gap: 16px; color: var(--accent); }
+  .work-entry-num {
+    grid-column: 1 / 2;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    padding-top: 12px;
+  }
+  .work-entry-meta {
+    grid-column: 2 / 5;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: 12px;
+    line-height: 2;
+  }
+  .work-entry-name {
+    grid-column: 5 / 9;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 5.5vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  .work-entry-name em { color: var(--accent); font-style: italic; }
+  .work-entry-outcome {
+    grid-column: 9 / 13;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink);
+    padding-top: 14px;
+  }
+  .work-entry-outcome em {
+    font-family: var(--font-display);
+    color: var(--accent);
+    font-style: italic;
+    font-size: 1.1em;
+  }
+  .work-entry-cta {
+    grid-column: 9 / 13;
+    margin-top: 24px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: gap 0.4s var(--ease), color 0.4s var(--ease);
+  }
+  .work-entry-image {
+    grid-column: 5 / 13;
+    margin-top: 32px;
+    aspect-ratio: 16 / 9;
+    background: linear-gradient(135deg, #2a3140, #6c7a8c);
+    border: 1px solid var(--rule);
+  }
+  .work-entry:nth-child(3) .work-entry-image { background: linear-gradient(135deg, #2a1a14, #d9622d); }
+  .work-entry:nth-child(4) .work-entry-image { background: linear-gradient(135deg, #5b2570, #f0b8d0); }
+
+  /* === Marquee strip === */
+  .marquee {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 28px 0;
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  .marquee-track {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 64px;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    animation: marquee 30s linear infinite;
+    padding-left: 100%;
+  }
+  .marquee-track em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .marquee-dot {
+    color: var(--accent);
+    margin: 0 0.4em;
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); }
+  }
+
+  /* === About / manifesto === */
+  .about {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 24px;
+    padding: 120px 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .about-eyebrow {
+    grid-column: 1 / 3;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-top: 18px;
+  }
+  .about-portrait {
+    grid-column: 3 / 6;
+    aspect-ratio: 4 / 5;
+    background: linear-gradient(180deg, var(--accent), var(--accent-deep));
+    border: 1px solid var(--rule);
+    display: flex;
+    align-items: end;
+    padding: 16px;
+    color: var(--bg);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .about-text {
+    grid-column: 7 / 13;
+    font-family: var(--font-display);
+    font-size: clamp(28px, 3.5vw, 56px);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+  .about-text em { color: var(--accent); font-style: italic; }
+  .about-text-small {
+    margin-top: 32px;
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 520px;
+  }
+
+  /* === Process — editorial list === */
+  .process {
+    padding: 100px 40px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .process-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 56px;
+  }
+  .process-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--rule);
+    border: 1px solid var(--rule);
+  }
+  .process-item {
+    background: var(--bg);
+    padding: 32px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .process-item-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+  }
+  .process-item-name {
+    font-family: var(--font-display);
+    font-size: 32px;
+    line-height: 1.05;
+  }
+  .process-item-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* === Closing === */
+  .closing {
+    padding: 200px 40px 160px;
+    text-align: center;
+  }
+  .closing-text {
+    font-family: var(--font-display);
+    font-size: clamp(72px, 13vw, 240px);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+  }
+  .closing-text em { color: var(--accent); font-style: italic; }
+  .closing-cta {
+    display: inline-block;
+    margin-top: 56px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ink);
+    padding-bottom: 4px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+  .closing-cta:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* === Footer === */
+  footer {
+    padding: 32px 40px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  footer a { color: var(--ink); text-decoration: none; border-bottom: 1px solid var(--rule); }
+  footer a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* === Reveal motion === */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.9s var(--ease), transform 0.9s var(--ease);
+  }
+  [data-reveal].in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* === Variant tag === */
+  .variant-tag {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 200;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    background: rgba(245, 241, 232, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+
+  /* === Responsive === */
+  @media (max-width: 720px) {
+    .topbar { grid-template-columns: 1fr 1fr; padding: 20px; }
+    .topbar-mark { display: none; }
+    .topbar-right { gap: 16px; }
+    .hero { grid-template-columns: 1fr; padding: 80px 20px 60px; gap: 24px; }
+    .hero-eyebrow, .hero-headline, .hero-meta, .hero-sub { grid-column: 1; margin-top: 0; }
+    .hero-meta { margin-top: 24px; }
+    .hero-sub { margin-top: 24px; font-size: 18px; }
+    .work-eyebrow { padding: 40px 20px 24px; flex-direction: column; gap: 16px; align-items: start; }
+    .work-entry { grid-template-columns: 1fr; padding: 56px 20px; gap: 16px; }
+    .work-entry-num, .work-entry-meta, .work-entry-name, .work-entry-outcome, .work-entry-cta, .work-entry-image { grid-column: 1; padding-top: 0; }
+    .work-entry-image { margin-top: 16px; }
+    .marquee-track { font-size: 40px; }
+    .about { grid-template-columns: 1fr; padding: 80px 20px; gap: 32px; }
+    .about-eyebrow, .about-portrait, .about-text { grid-column: 1; }
+    .about-portrait { max-width: 240px; }
+    .process { padding: 60px 20px; }
+    .process-list { grid-template-columns: 1fr; }
+    .closing { padding: 100px 20px; }
+    footer { padding: 24px 20px; flex-direction: column; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+    .marquee-track { animation: none; transform: translateX(-50%); }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-left">Built by Laird, LLC · Independent</div>
+  <div class="topbar-mark">Built by <em>Laird</em></div>
+  <nav class="topbar-right">
+    <a href="#work">Work</a>
+    <a href="#about">About</a>
+    <a href="mailto:david@builtbylaird.com">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow" data-reveal>Vol. 01 · 2026</div>
+  <h1 class="hero-headline" data-reveal>
+    A studio of <em>one,</em> building careful<br/>websites that <em>last.</em>
+  </h1>
+  <div class="hero-meta" data-reveal>
+    <div class="hero-meta-row"><span>Studio</span><span>Independent</span></div>
+    <div class="hero-meta-row"><span>Founded</span><span>2024</span></div>
+    <div class="hero-meta-row"><span>Practice</span><span>Web · Booking · Automation</span></div>
+    <div class="hero-meta-row"><span>Status</span><span>Available</span></div>
+  </div>
+  <p class="hero-sub" data-reveal>
+    For service businesses, realtors, and the independent shops that keep a town interesting. We make sites that <em>do their job</em> — fast, mobile-first, accessible, and yours to keep when we're done.
+  </p>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    Considered <em>websites</em> <span class="marquee-dot">·</span> Built once, owned forever <span class="marquee-dot">·</span> <em>Local</em> studio <span class="marquee-dot">·</span> Real code, no templates <span class="marquee-dot">·</span> Considered <em>websites</em> <span class="marquee-dot">·</span> Built once, owned forever <span class="marquee-dot">·</span> <em>Local</em> studio <span class="marquee-dot">·</span> Real code, no templates <span class="marquee-dot">·</span>
+  </div>
+</div>
+
+<section class="work-section" id="work">
+  <div class="work-eyebrow">
+    <h2>Selected <em>work</em></h2>
+    <span>Three projects in market · 2024 — 2026</span>
+  </div>
+
+  <a class="work-entry" href="#" data-reveal>
+    <div class="work-entry-num">01</div>
+    <div class="work-entry-meta">
+      <div>Real estate</div>
+      <div>Boutique brokerage</div>
+      <div>2025</div>
+    </div>
+    <div class="work-entry-name">Gloria Rossi <em>Realty</em></div>
+    <div class="work-entry-outcome">A working MLS-backed boutique site for a single agent. Listings refresh themselves on a four-hour cadence; every property gets its own custom page — <em>indistinguishable</em> from a national brokerage.</div>
+    <div class="work-entry-cta">Visit site <span aria-hidden="true">↗</span></div>
+    <div class="work-entry-image" aria-hidden="true"></div>
+  </a>
+
+  <a class="work-entry" href="#" data-reveal>
+    <div class="work-entry-num">02</div>
+    <div class="work-entry-meta">
+      <div>Beauty</div>
+      <div>Esthetician studio</div>
+      <div>2025</div>
+    </div>
+    <div class="work-entry-name">Luxe Wax <em>Studio</em></div>
+    <div class="work-entry-outcome">A premium booking experience disguised as a marketing site. Categories filter quietly, services tab in place, and the whole thing feels — <em>finally</em> — like a real spa.</div>
+    <div class="work-entry-cta">Visit site <span aria-hidden="true">↗</span></div>
+    <div class="work-entry-image" aria-hidden="true"></div>
+  </a>
+
+  <a class="work-entry" href="#" data-reveal>
+    <div class="work-entry-num">03</div>
+    <div class="work-entry-meta">
+      <div>Events</div>
+      <div>Party rentals</div>
+      <div>2024</div>
+    </div>
+    <div class="work-entry-name">Over The <em>Top</em></div>
+    <div class="work-entry-outcome">A loud, joyful site for inflatables, tents, and all the good-time machinery. Carousel UX, third-party-form integration, and a brand that <em>refuses</em> to whisper.</div>
+    <div class="work-entry-cta">Visit site <span aria-hidden="true">↗</span></div>
+    <div class="work-entry-image" aria-hidden="true"></div>
+  </a>
+</section>
+
+<section class="about" id="about">
+  <div class="about-eyebrow" data-reveal>About</div>
+  <div class="about-portrait" data-reveal>Portrait — placeholder</div>
+  <div data-reveal style="grid-column: 7 / 13;">
+    <p class="about-text">
+      I'm <em>David Laird.</em> I run a small studio that designs and builds websites for businesses around here. The kind of sites that <em>show up</em> when someone Googles you, load fast, look like they belong to you, and don't fall apart in two years.
+    </p>
+    <p class="about-text-small">
+      Built by Laird is an independent LLC. Every project is hand-built — no themes, no Wix, no template marketplaces. I work with three to four clients a year, on purpose. If you'd like to talk about a project, the calendar opens with an email.
+    </p>
+  </div>
+</section>
+
+<section class="process">
+  <div class="process-eyebrow" data-reveal>How it works · 4 phases</div>
+  <div class="process-list" data-reveal>
+    <div class="process-item">
+      <div class="process-item-num">01 · 30 min</div>
+      <div class="process-item-name">Discover</div>
+      <div class="process-item-desc">A short conversation. What does your business actually need this site to do? Who's it for? We sketch the structure together.</div>
+    </div>
+    <div class="process-item">
+      <div class="process-item-num">02 · 1 wk</div>
+      <div class="process-item-name">Plan</div>
+      <div class="process-item-desc">A written proposal — pages, scope, price, timeline. No surprises later. You sign or you don't, no pressure.</div>
+    </div>
+    <div class="process-item">
+      <div class="process-item-num">03 · 3 — 6 wk</div>
+      <div class="process-item-name">Build</div>
+      <div class="process-item-desc">I build, you review at two checkpoints. We refine. Real code, mobile-first, fast on weak phones, accessible.</div>
+    </div>
+    <div class="process-item">
+      <div class="process-item-num">04 · 1 day</div>
+      <div class="process-item-name">Launch</div>
+      <div class="process-item-desc">We ship. You own the code, the domain, the hosting. I show you how to update copy. Optional ongoing support.</div>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="closing-text" data-reveal>
+    Let's <em>make</em><br/>something good.
+  </div>
+  <a class="closing-cta" href="mailto:david@builtbylaird.com" data-reveal>david@builtbylaird.com →</a>
+</section>
+
+<footer>
+  <span>Built by Laird, LLC · 2026</span>
+  <span><a href="mailto:david@builtbylaird.com">david@builtbylaird.com</a></span>
+  <span>Local studio · Available</span>
+</footer>
+
+<div class="variant-tag">Tier 2 · Editorial studio</div>
+
+<script>
+  // Reveal-on-scroll
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '-10% 0% -10% 0%' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

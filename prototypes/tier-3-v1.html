@@ -1,0 +1,635 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Built by Laird — Tier 3 (Playful & expressive)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FFF6E5;
+    --bg-soft: #FFEFD0;
+    --ink: #1F1814;
+    --ink-soft: #6B5949;
+    --orange: #E96C2C;
+    --orange-deep: #B14618;
+    --yellow: #F5C45F;
+    --pink: #F38BAA;
+    --green: #6FA86A;
+    --rule: rgba(31, 24, 20, 0.12);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --ease: cubic-bezier(0.34, 1.56, 0.64, 1);   /* slight overshoot for playfulness */
+    --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  @media (hover: none) {
+    body { cursor: auto; }
+    .cursor { display: none !important; }
+  }
+  ::selection { background: var(--orange); color: var(--bg); }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; border-radius: 4px; }
+  body.using-keyboard { cursor: auto; }
+  body.using-keyboard .cursor { display: none; }
+
+  /* === Custom cursor (smaller, friendlier than tier 4) === */
+  .cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 16px; height: 16px;
+    background: var(--orange);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.3s var(--ease), height 0.3s var(--ease), background 0.3s, transform 0.05s linear;
+    mix-blend-mode: multiply;
+  }
+  body.is-hovering .cursor {
+    width: 64px; height: 64px;
+    background: var(--yellow);
+  }
+
+  /* === Topbar === */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 32px;
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    z-index: 50;
+    border-bottom: 1px solid var(--rule);
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 24, "SOFT" 100;
+    cursor: none;
+    display: inline-block;
+  }
+  .wordmark span { color: var(--orange); font-style: italic; display: inline-block; }
+  .wordmark:hover { animation: wobble 0.6s var(--ease) infinite; }
+  @keyframes wobble {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  .nav-status {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--yellow);
+    padding: 8px 16px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .nav-status::before {
+    content: "";
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 0 var(--green);
+    animation: ping 2s infinite;
+  }
+  @keyframes ping {
+    0% { box-shadow: 0 0 0 0 rgba(111, 168, 106, 0.6); }
+    70% { box-shadow: 0 0 0 10px rgba(111, 168, 106, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(111, 168, 106, 0); }
+  }
+
+  /* === Hero === */
+  .hero {
+    padding: 100px 32px 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .hero-tag {
+    display: inline-block;
+    background: var(--pink);
+    color: var(--ink);
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 32px;
+    transform: rotate(-1.5deg);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(56px, 9vw, 156px);
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+  }
+  .hero-title em {
+    color: var(--orange);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .hero-title .underline {
+    background-image: linear-gradient(transparent 70%, var(--yellow) 70%);
+  }
+  .hero-sub {
+    margin-top: 40px;
+    font-size: 21px;
+    line-height: 1.5;
+    max-width: 640px;
+    color: var(--ink);
+  }
+  .hero-cta-row {
+    margin-top: 48px;
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.3s var(--ease), background 0.3s, color 0.3s;
+    cursor: none;
+  }
+  .btn-primary {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .btn-primary:hover { background: var(--orange); transform: translateY(-2px) rotate(-1deg); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border: 1.5px solid var(--ink);
+  }
+  .btn-secondary:hover { background: var(--yellow); transform: translateY(-2px) rotate(1deg); }
+
+  /* === Tools strip === */
+  .tools {
+    padding: 40px 32px;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .tools-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .tools-label {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-right: 8px;
+  }
+  .chip {
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid var(--ink);
+    transition: transform 0.3s var(--ease), background 0.3s;
+  }
+  .chip:hover { transform: rotate(-3deg) scale(1.05); }
+  .chip:nth-child(2) { background: var(--orange); color: var(--bg); border-color: var(--orange); }
+  .chip:nth-child(3) { background: var(--yellow); }
+  .chip:nth-child(4) { background: var(--pink); }
+  .chip:nth-child(5) { background: var(--bg); }
+  .chip:nth-child(6) { background: var(--green); color: var(--bg); border-color: var(--green); }
+  .chip:nth-child(7) { background: var(--bg); }
+
+  /* === About === */
+  .about {
+    padding: 100px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 64px;
+    align-items: start;
+  }
+  .about-portrait {
+    aspect-ratio: 4/5;
+    background: linear-gradient(135deg, var(--orange), var(--pink));
+    border-radius: 24px;
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: end;
+    justify-content: start;
+    padding: 16px;
+    color: var(--bg);
+    font-size: 12px;
+    transform: rotate(-2deg);
+    transition: transform 0.5s var(--ease);
+  }
+  .about-portrait:hover { transform: rotate(0deg) scale(1.02); }
+  .about h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 96, "SOFT" 80;
+  }
+  .about h2 em { color: var(--orange); font-style: italic; }
+  .about p { font-size: 19px; line-height: 1.55; margin-bottom: 16px; }
+  .about strong { background-image: linear-gradient(transparent 70%, var(--yellow) 70%); font-weight: 500; }
+
+  /* === Work — colored cards, tilt on hover === */
+  .work-section {
+    padding: 100px 32px;
+    background: var(--bg-soft);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .work-header {
+    max-width: 1200px;
+    margin: 0 auto 64px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .work-header h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 96, "SOFT" 80;
+  }
+  .work-header h2 em { color: var(--orange); font-style: italic; }
+  .work-header-meta {
+    font-size: 14px;
+    color: var(--ink-soft);
+    text-align: right;
+  }
+  .work-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+  .work-card {
+    border-radius: 24px;
+    border: 2px solid var(--ink);
+    padding: 28px;
+    text-decoration: none;
+    color: var(--ink);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    transition: transform 0.4s var(--ease), box-shadow 0.4s var(--ease-smooth);
+    background: var(--bg);
+    cursor: none;
+    aspect-ratio: 1;
+    position: relative;
+  }
+  .work-card:nth-child(1) { background: var(--orange); color: var(--bg); }
+  .work-card:nth-child(2) { background: var(--yellow); }
+  .work-card:nth-child(3) { background: var(--pink); }
+  .work-card:hover {
+    transform: translateY(-8px) rotate(-1deg);
+    box-shadow: 8px 8px 0 0 var(--ink);
+  }
+  .work-card:nth-child(2):hover { transform: translateY(-8px) rotate(1deg); box-shadow: -8px 8px 0 0 var(--ink); }
+  .work-card-num {
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    opacity: 0.7;
+  }
+  .work-card-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 36, "SOFT" 60;
+    margin-top: auto;
+  }
+  .work-card-desc { font-size: 14px; line-height: 1.5; opacity: 0.85; }
+  .work-card-cta {
+    font-size: 13px;
+    font-weight: 500;
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: gap 0.3s var(--ease);
+  }
+  .work-card:hover .work-card-cta { gap: 14px; }
+
+  /* === Process === */
+  .process {
+    padding: 100px 32px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .process h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-bottom: 64px;
+    font-variation-settings: "opsz" 96, "SOFT" 80;
+  }
+  .process h2 em { color: var(--orange); font-style: italic; }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+  .process-card {
+    border: 2px solid var(--ink);
+    border-radius: 16px;
+    padding: 24px;
+    background: var(--bg);
+    transition: transform 0.4s var(--ease);
+  }
+  .process-card:nth-child(1) { background: var(--bg); }
+  .process-card:nth-child(2) { background: var(--bg-soft); }
+  .process-card:nth-child(3) { background: var(--bg); }
+  .process-card:nth-child(4) { background: var(--yellow); }
+  .process-card:hover { transform: translateY(-6px); }
+  .process-card-num {
+    font-size: 28px;
+    font-family: var(--font-display);
+    color: var(--orange);
+    font-style: italic;
+    line-height: 1;
+    margin-bottom: 16px;
+    font-variation-settings: "opsz" 36, "SOFT" 100;
+  }
+  .process-card-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 22px;
+    margin-bottom: 8px;
+    font-variation-settings: "opsz" 24, "SOFT" 60;
+  }
+  .process-card-desc { font-size: 14px; color: var(--ink-soft); line-height: 1.5; }
+
+  /* === CTA === */
+  .cta {
+    padding: 120px 32px;
+    text-align: center;
+    background: var(--orange);
+    color: var(--bg);
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-text {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(56px, 11vw, 180px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+  }
+  .cta-text em {
+    color: var(--yellow);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .cta-email {
+    display: inline-block;
+    margin-top: 48px;
+    font-size: 17px;
+    background: var(--bg);
+    color: var(--ink);
+    padding: 18px 36px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 500;
+    border: 2px solid var(--ink);
+    transition: transform 0.3s var(--ease), background 0.3s;
+    cursor: none;
+  }
+  .cta-email:hover { background: var(--yellow); transform: translateY(-3px) rotate(-1deg); }
+
+  /* === Footer === */
+  footer {
+    padding: 32px;
+    background: var(--ink);
+    color: var(--bg);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+  }
+  footer a { color: var(--yellow); text-decoration: underline; text-underline-offset: 3px; }
+
+  /* === Reveal === */
+  [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 0.7s var(--ease-smooth), transform 0.7s var(--ease); }
+  [data-reveal].in { opacity: 1; transform: translateY(0); }
+
+  /* === Variant tag === */
+  .variant-tag {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 200;
+    font-size: 11px;
+    color: var(--bg);
+    background: var(--ink);
+    padding: 8px 14px;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+
+  @media (max-width: 720px) {
+    .topbar { padding: 16px 20px; }
+    .hero { padding: 60px 20px 40px; }
+    .about { grid-template-columns: 1fr; padding: 60px 20px; gap: 32px; }
+    .about-portrait { max-width: 240px; }
+    .work-section, .process { padding: 60px 20px; }
+    .work-grid { grid-template-columns: 1fr; }
+    .process-grid { grid-template-columns: 1fr; }
+    .cta { padding: 80px 20px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+    .wordmark:hover { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" aria-hidden="true"></div>
+
+<header class="topbar">
+  <a href="/" class="wordmark">Built by <span>Laird</span></a>
+  <div class="nav-status">Available now &middot; June</div>
+</header>
+
+<section class="hero">
+  <span class="hero-tag" data-reveal>A studio of one &middot; In your area</span>
+  <h1 class="hero-title" data-reveal>
+    Hi, I'm David. I make <em>websites</em> that <span class="underline">people actually use.</span>
+  </h1>
+  <p class="hero-sub" data-reveal>
+    I'm a one-person studio. I build careful, fast, mobile-first websites for service businesses, realtors, and the independent shops in town. Real code, hand-built, no templates &mdash; and you keep it all when we're done.
+  </p>
+  <div class="hero-cta-row" data-reveal>
+    <a href="mailto:david@builtbylaird.com" class="btn btn-primary">Start a project &rarr;</a>
+    <a href="#work" class="btn btn-secondary">See the work</a>
+  </div>
+</section>
+
+<section class="tools" aria-label="Tools I use">
+  <div class="tools-inner">
+    <span class="tools-label">Built with:</span>
+    <span class="chip">HTML</span>
+    <span class="chip">CSS</span>
+    <span class="chip">JavaScript</span>
+    <span class="chip">Astro</span>
+    <span class="chip">Cal.com</span>
+    <span class="chip">Web3Forms</span>
+    <span class="chip">Real care</span>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="about-portrait" data-reveal>Portrait &middot; placeholder</div>
+  <div data-reveal>
+    <h2>About <em>me.</em></h2>
+    <p>
+      I'm David Laird and I run Built by Laird. I build websites for the kinds of businesses I love walking into &mdash; the local salon, the small brokerage, the family-run rental shop.
+    </p>
+    <p>
+      I take <strong>three to four projects a year</strong>. That's it. It's the only way each one gets the care it deserves. Every site is hand-built &mdash; no themes, no Wix, no template marketplaces &mdash; and you own everything when we ship.
+    </p>
+  </div>
+</section>
+
+<section class="work-section" id="work">
+  <div class="work-header">
+    <h2>Selected <em>work.</em></h2>
+    <div class="work-header-meta">2024 &mdash; 2026<br/>3 projects in market</div>
+  </div>
+  <div class="work-grid">
+    <a class="work-card" href="#" data-reveal>
+      <span class="work-card-num">01 &middot; Real estate</span>
+      <span class="work-card-name">Gloria Rossi Realty</span>
+      <span class="work-card-desc">A working MLS-backed boutique site. Listings refresh themselves; every property gets its own custom page.</span>
+      <span class="work-card-cta">Visit site <span aria-hidden="true">&rarr;</span></span>
+    </a>
+    <a class="work-card" href="#" data-reveal>
+      <span class="work-card-num">02 &middot; Beauty</span>
+      <span class="work-card-name">Luxe Wax Studio</span>
+      <span class="work-card-desc">A premium booking experience disguised as a marketing site. Categories filter quietly, the whole thing feels like a real spa.</span>
+      <span class="work-card-cta">Visit site <span aria-hidden="true">&rarr;</span></span>
+    </a>
+    <a class="work-card" href="#" data-reveal>
+      <span class="work-card-num">03 &middot; Events</span>
+      <span class="work-card-name">Over The Top Rentals</span>
+      <span class="work-card-desc">A loud, joyful site for inflatables, tents, and good-time machinery. Carousel UX, third-party-form contact, vibrant brand.</span>
+      <span class="work-card-cta">Visit site <span aria-hidden="true">&rarr;</span></span>
+    </a>
+  </div>
+</section>
+
+<section class="process">
+  <h2 data-reveal>How it <em>works.</em></h2>
+  <div class="process-grid">
+    <div class="process-card" data-reveal>
+      <div class="process-card-num">01</div>
+      <div class="process-card-name">Discover</div>
+      <div class="process-card-desc">A 30-min chat. What do you need? Who's it for? We sketch the structure together.</div>
+    </div>
+    <div class="process-card" data-reveal>
+      <div class="process-card-num">02</div>
+      <div class="process-card-name">Plan</div>
+      <div class="process-card-desc">A written proposal &mdash; pages, scope, price, timeline. No surprises.</div>
+    </div>
+    <div class="process-card" data-reveal>
+      <div class="process-card-num">03</div>
+      <div class="process-card-name">Build</div>
+      <div class="process-card-desc">3&ndash;6 weeks. Two checkpoints. Real code, mobile-first.</div>
+    </div>
+    <div class="process-card" data-reveal>
+      <div class="process-card-num">04</div>
+      <div class="process-card-name">Launch</div>
+      <div class="process-card-desc">We ship. You own everything. Optional ongoing support.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-text" data-reveal>Let's <em>make</em> something.</div>
+  <a href="mailto:david@builtbylaird.com" class="cta-email" data-reveal>david@builtbylaird.com &rarr;</a>
+</section>
+
+<footer>
+  <span>Built by Laird, LLC &middot; 2026</span>
+  <span><a href="mailto:david@builtbylaird.com">david@builtbylaird.com</a></span>
+  <span>Local studio &middot; Made with care</span>
+</footer>
+
+<div class="variant-tag">Tier 3 · Playful & expressive</div>
+
+<script>
+  // Cursor
+  const cursor = document.querySelector('.cursor');
+  let mx = 0, my = 0, cx = 0, cy = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function tick() {
+    cx += (mx - cx) * 0.25;
+    cy += (my - cy) * 0.25;
+    cursor.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(tick);
+  }
+  tick();
+  document.querySelectorAll('a, button, .chip, .work-card, .process-card, .about-portrait').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('is-hovering'));
+  });
+
+  // Keyboard mode
+  document.addEventListener('keydown', (e) => { if (e.key === 'Tab') document.body.classList.add('using-keyboard'); });
+  document.addEventListener('mousedown', () => { document.body.classList.remove('using-keyboard'); });
+
+  // Reveal
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, { rootMargin: '-5% 0% -10% 0%' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>

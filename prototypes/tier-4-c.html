@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Built by Laird — Tier 4 (Variant C · High-contrast modern)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* High-contrast modern — white-led, black contrast, vivid orange */
+    --bg: #FFFFFF;
+    --bg-soft: #FAFAFA;
+    --surface: #0A0A0A;
+    --surface-deep: #000000;
+    --ink: #FFFFFF;                       /* text on dark --surface */
+    --ink-soft: rgba(255, 255, 255, 0.65);
+    --cream: #0A0A0A;                     /* text on white --bg */
+    --cream-soft: rgba(10, 10, 10, 0.65);
+    --cream-faint: rgba(10, 10, 10, 0.12);
+    --orange: #FF5722;                    /* vivid orange */
+    --orange-deep: #E54B0F;
+    --orange-soft: #FFD2C2;
+    --border-dark: rgba(10, 10, 10, 0.12);
+    --border-light: rgba(255, 255, 255, 0.12);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-build: cubic-bezier(0.83, 0, 0.17, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.55;
+    overflow-x: hidden;
+    cursor: none;
+  }
+  @media (hover: none) {
+    body { cursor: auto; }
+    .cursor, .cursor-dot { display: none !important; }
+  }
+  ::selection { background: var(--orange); color: var(--bg); }
+  :focus { outline: none; }
+  :focus-visible {
+    outline: 2px solid var(--orange);
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+  body.using-keyboard { cursor: auto; }
+  body.using-keyboard .cursor,
+  body.using-keyboard .cursor-dot { display: none; }
+
+  /* === Custom cursor === */
+  .cursor {
+    position: fixed;
+    top: 0; left: 0;
+    width: 32px; height: 32px;
+    border: 1px solid var(--orange);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: width 0.25s var(--ease-out), height 0.25s var(--ease-out), background 0.25s, border-color 0.25s;
+  }
+  .cursor-dot {
+    position: fixed;
+    top: 0; left: 0;
+    width: 4px; height: 4px;
+    background: var(--orange);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+  }
+  body.is-hovering .cursor {
+    width: 80px; height: 80px;
+    background: var(--orange);
+  }
+
+  /* === Top bar === */
+  .topbar {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    color: var(--cream);
+  }
+  .wordmark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    font-variation-settings: "opsz" 14, "SOFT" 50;
+  }
+  .wordmark span { color: var(--orange); }
+  .status {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--cream-soft);
+  }
+  .status::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    box-shadow: 0 0 0 0 var(--orange);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0.5); }
+    70% { box-shadow: 0 0 0 12px rgba(255, 87, 34, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 87, 34, 0); }
+  }
+
+  /* === Hero === */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 40px;
+    z-index: 1;
+  }
+  .hero-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out) 0.2s forwards;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(72px, 16vw, 280px);
+    line-height: 0.92;
+    letter-spacing: -0.04em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144, "SOFT" 30;
+  }
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    position: relative;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.12em;
+  }
+  .hero-line .letter {
+    display: inline-block;
+    transform: translateY(110%) rotate(2deg);
+    transition: transform 1s var(--ease-build);
+  }
+  .hero-line.in-view .letter { transform: translateY(0) rotate(0); }
+  .hero-line .letter:nth-child(1) { transition-delay: 0.05s; }
+  .hero-line .letter:nth-child(2) { transition-delay: 0.10s; }
+  .hero-line .letter:nth-child(3) { transition-delay: 0.15s; }
+  .hero-line .letter:nth-child(4) { transition-delay: 0.20s; }
+  .hero-line .letter:nth-child(5) { transition-delay: 0.25s; }
+  .hero-line .letter:nth-child(6) { transition-delay: 0.30s; }
+  .hero-line .letter:nth-child(7) { transition-delay: 0.35s; }
+  .hero-line .letter:nth-child(8) { transition-delay: 0.40s; }
+  .accent {
+    color: var(--orange);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .hero-sub {
+    margin-top: 56px;
+    max-width: 620px;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--cream-soft);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s var(--ease-out) 1.2s, transform 0.8s var(--ease-out) 1.2s;
+  }
+  .hero-sub.in-view { opacity: 1; transform: translateY(0); }
+  .hero-foot {
+    position: absolute;
+    bottom: 32px;
+    left: 40px;
+    right: 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    opacity: 0;
+    animation: fade-in 0.8s var(--ease-out) 1.8s forwards;
+  }
+  .hero-foot-scroll { display: flex; align-items: center; gap: 12px; }
+  .hero-foot-scroll::after {
+    content: "";
+    width: 40px; height: 1px;
+    background: var(--cream-soft);
+    animation: scroll-line 2.4s var(--ease-out) infinite;
+    transform-origin: left;
+  }
+  @keyframes scroll-line {
+    0%, 100% { transform: scaleX(0.4); }
+    50% { transform: scaleX(1); }
+  }
+  @keyframes fade-in { to { opacity: 1; } }
+
+  /* === Pull quote === */
+  .pull-quote {
+    padding: 200px 40px 200px;
+    background: var(--bg);
+    text-align: center;
+    position: relative;
+  }
+  .pull-quote-text {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(64px, 11vw, 200px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+  }
+  .pull-quote-text .pq-line { display: block; }
+  .pull-quote-text em {
+    color: var(--orange);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .pull-quote-attr {
+    margin-top: 40px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+  }
+
+  /* === Trust strip === */
+  .trust {
+    padding: 120px 40px;
+    background: var(--surface);
+    color: var(--ink);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+  }
+  .trust-card {
+    border-left: 1px solid var(--border-light);
+    padding-left: 24px;
+  }
+  .trust-card-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 16px;
+  }
+  .trust-card-name {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    font-variation-settings: "opsz" 36, "SOFT" 30;
+  }
+  .trust-card-desc {
+    font-size: 14px;
+    color: var(--ink-soft);
+    line-height: 1.55;
+  }
+
+  /* === Featured work — horizontal scroll === */
+  .work-section {
+    background: var(--bg);
+    color: var(--cream);
+    position: relative;
+  }
+  .work-header {
+    padding: 140px 40px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+  .work-header h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(56px, 8vw, 144px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+  }
+  .work-header h2 em {
+    color: var(--orange);
+    font-style: italic;
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .work-header-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    text-align: right;
+    line-height: 1.8;
+  }
+
+  .work-track-wrap { height: 300vh; position: relative; }
+  .work-sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .work-track {
+    display: flex;
+    gap: 40px;
+    padding: 0 40px;
+    will-change: transform;
+  }
+  .work-card {
+    flex: 0 0 70vw;
+    height: 70vh;
+    background: var(--bg-soft);
+    border: 1px solid var(--border-dark);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.6s var(--ease-out), transform 0.5s var(--ease-out), border-color 0.5s var(--ease-out);
+  }
+  .work-card:hover {
+    background: var(--orange);
+    color: var(--bg);
+    transform: translateY(-8px);
+    border-color: var(--orange);
+  }
+  .work-card-screenshot {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.55;
+    transition: opacity 0.6s var(--ease-out);
+  }
+  .work-card:hover .work-card-screenshot { opacity: 0.18; }
+  .work-card-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+  }
+  .work-card-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+  }
+  .work-card:hover .work-card-meta { color: var(--bg); }
+  .work-card-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    font-variation-settings: "opsz" 96, "SOFT" 40;
+    transition: color 0.4s var(--ease-out);
+  }
+  .work-card:hover .work-card-name { color: var(--bg); }
+  .work-card-outcome {
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--cream-soft);
+    max-width: 480px;
+    margin-top: 16px;
+    transition: color 0.4s var(--ease-out);
+  }
+  .work-card:hover .work-card-outcome { color: rgba(26, 22, 20, 0.75); }
+  .work-card-outcome em {
+    font-family: var(--font-display);
+    font-style: italic;
+    color: var(--orange);
+    transition: color 0.4s var(--ease-out);
+  }
+  .work-card:hover .work-card-outcome em { color: var(--bg); }
+  .work-card-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .work-card-tags { display: flex; gap: 12px; flex-wrap: wrap; }
+  .work-card-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    padding: 6px 12px;
+    border: 1px solid var(--cream-faint);
+    border-radius: 999px;
+    color: var(--cream-soft);
+    transition: border-color 0.4s, color 0.4s;
+  }
+  .work-card:hover .work-card-tag {
+    border-color: rgba(26, 22, 20, 0.3);
+    color: rgba(26, 22, 20, 0.75);
+  }
+  .work-card-cta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    transition: gap 0.4s var(--ease-out), color 0.4s var(--ease-out);
+  }
+  .work-card:hover .work-card-cta { gap: 16px; color: var(--bg); }
+  .work-card-cta-arrow {
+    display: inline-block;
+    transition: transform 0.4s var(--ease-out);
+  }
+  .work-card:hover .work-card-cta-arrow { transform: translateX(4px) translateY(-4px); }
+
+  /* === Process === */
+  .process {
+    padding: 160px 40px;
+    background: var(--surface);
+    color: var(--ink);
+  }
+  .process-header { margin-bottom: 80px; }
+  .process-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--orange-deep);
+    margin-bottom: 16px;
+  }
+  .process-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(48px, 6vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    max-width: 900px;
+    font-variation-settings: "opsz" 96, "SOFT" 40;
+  }
+  .process-title em {
+    color: var(--orange-deep);
+    font-style: italic;
+    font-variation-settings: "opsz" 96, "SOFT" 100;
+  }
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1px;
+    background: var(--border-light);
+    border: 1px solid var(--border-light);
+  }
+  .process-step {
+    background: var(--surface);
+    padding: 48px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    transition: background 0.4s var(--ease-out), color 0.4s var(--ease-out);
+  }
+  .process-step:hover {
+    background: var(--bg);
+    color: var(--cream);
+  }
+  .process-step:hover .process-step-num { color: var(--orange); }
+  .process-step-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    color: var(--ink-soft);
+    transition: color 0.4s var(--ease-out);
+  }
+  .process-step-name {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    font-variation-settings: "opsz" 36, "SOFT" 30;
+  }
+  .process-step-desc {
+    font-size: 14px;
+    line-height: 1.55;
+    opacity: 0.8;
+  }
+
+  /* === Closing CTA === */
+  .cta {
+    padding: 200px 40px;
+    background: var(--orange);
+    color: var(--bg);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-text {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(64px, 11vw, 220px);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    margin-bottom: 56px;
+    font-variation-settings: "opsz" 144, "SOFT" 80;
+  }
+  .cta-text em {
+    font-style: italic;
+    color: var(--bg);
+    font-variation-settings: "opsz" 144, "SOFT" 100;
+  }
+  .cta-email {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: 0.04em;
+    color: var(--bg);
+    text-decoration: none;
+    padding: 22px 44px;
+    border: 1px solid var(--bg);
+    border-radius: 999px;
+    transition: background 0.3s var(--ease-out), color 0.3s var(--ease-out);
+  }
+  .cta-email:hover { background: var(--bg); color: var(--orange); }
+
+  /* === Footer (light-led variants override to dark surface for visual closure) === */
+  footer {
+    padding: 60px 40px 40px;
+    background: var(--surface);
+    color: var(--ink);
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
+  .footer-mark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 96px;
+    line-height: 0.9;
+    letter-spacing: -0.03em;
+    font-variation-settings: "opsz" 144, "SOFT" 60;
+  }
+  .footer-mark span { color: var(--orange); }
+  .footer-meta {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    text-align: right;
+    line-height: 1.8;
+  }
+  .footer-meta a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  .variant-tag {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 200;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--cream-soft);
+    background: rgba(26, 22, 20, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid var(--border-dark);
+    border-radius: 999px;
+  }
+
+  /* === Responsive === */
+  @media (max-width: 720px) {
+    .topbar { padding: 16px 20px; }
+    .hero { padding: 100px 20px 80px; }
+    .hero-foot { left: 20px; right: 20px; }
+    .trust { grid-template-columns: 1fr; gap: 40px; padding: 80px 20px; }
+    .work-header { padding: 80px 20px 40px; flex-direction: column; gap: 32px; align-items: start; }
+    .work-track-wrap { height: auto; }
+    .work-sticky { position: static; height: auto; overflow: visible; }
+    .work-track {
+      flex-direction: column;
+      gap: 24px;
+      padding: 0 20px;
+      transform: none !important;
+    }
+    .work-card { flex: 0 0 auto; height: auto; min-height: 70vh; padding: 24px; }
+    .work-card-name { font-size: 40px; }
+    .process { padding: 80px 20px; }
+    .process-grid { grid-template-columns: 1fr; }
+    .pull-quote { padding: 100px 20px; }
+    .cta { padding: 100px 20px; }
+    .footer-mark { font-size: 56px; }
+    footer { flex-direction: column; align-items: start; }
+    .footer-meta { text-align: left; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001s !important;
+      transition-duration: 0.001s !important;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" aria-hidden="true"></div>
+<div class="cursor-dot" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wordmark">Built by <span>Laird</span></div>
+  <div class="status">Available — taking projects</div>
+</header>
+
+<section class="hero">
+  <div class="hero-eyebrow">A studio of one · Local · 2026</div>
+  <h1 class="hero-title">
+    <span class="hero-line" data-line>
+      <span class="letter">B</span><span class="letter">u</span><span class="letter">i</span><span class="letter">l</span><span class="letter">t</span>
+    </span>
+    <span class="hero-line" data-line>
+      <span class="letter">b</span><span class="letter">y</span> <span class="letter accent">L</span><span class="letter accent">a</span><span class="letter accent">i</span><span class="letter accent">r</span><span class="letter accent">d</span>
+    </span>
+  </h1>
+  <p class="hero-sub" data-fade>
+    A studio of one, building considered, fast, and unmistakably distinct websites for service businesses, realtors, and the independent shops that keep a town interesting.
+  </p>
+  <div class="hero-foot">
+    <span>davidlaird@builtbylaird.com</span>
+    <span class="hero-foot-scroll">Scroll</span>
+  </div>
+</section>
+
+<section class="pull-quote">
+  <div class="pull-quote-text">
+    <span class="pq-line">Built once.</span>
+    <span class="pq-line"><em>Owned</em> forever.</span>
+  </div>
+  <div class="pull-quote-attr">— A guarantee, not a tagline</div>
+</section>
+
+<section class="trust">
+  <div class="trust-card" data-hover>
+    <div class="trust-card-meta">01 — Esthetician</div>
+    <div class="trust-card-name">Luxe Wax Studio</div>
+    <div class="trust-card-desc">A premium wax studio. Booking-led site with a luxury aesthetic and category-tabbed services.</div>
+  </div>
+  <div class="trust-card" data-hover>
+    <div class="trust-card-meta">02 — Luxury real estate</div>
+    <div class="trust-card-name">Gloria Rossi Realty</div>
+    <div class="trust-card-desc">Live MLS integration via Spark API. GitHub Actions auto-refreshes listings every four hours. Custom property search and detail pages.</div>
+  </div>
+  <div class="trust-card" data-hover>
+    <div class="trust-card-meta">03 — Party rentals</div>
+    <div class="trust-card-name">Over The Top</div>
+    <div class="trust-card-desc">Vibrant brand site with photo carousel and Web3Forms-powered contact flow. Inflatables, tents, and good time machinery.</div>
+  </div>
+</section>
+
+<section class="work-section">
+  <div class="work-header">
+    <h2>Selected <em>work.</em></h2>
+    <div class="work-header-meta">2024 — 2026<br/>3 projects in market</div>
+  </div>
+  <div class="work-track-wrap">
+    <div class="work-sticky">
+      <div class="work-track" id="workTrack">
+        <a class="work-card" data-hover href="#" aria-label="View case study: Gloria Rossi Realty">
+          <div class="work-card-screenshot" aria-hidden="true" style="background: linear-gradient(135deg, #2a3140, #6c7a8c);"></div>
+          <div class="work-card-content">
+            <div class="work-card-meta">Case 01 / Real estate</div>
+            <div>
+              <div class="work-card-name">Gloria Rossi<br/>Realty</div>
+              <div class="work-card-outcome">An MLS-backed boutique site for a single agent. Listings refresh themselves on a four-hour cadence; every property gets its own custom page — <em>indistinguishable from a national brokerage.</em></div>
+            </div>
+            <div class="work-card-foot">
+              <div class="work-card-tags">
+                <span class="work-card-tag">Live MLS</span>
+                <span class="work-card-tag">GitHub Actions</span>
+                <span class="work-card-tag">Custom search</span>
+              </div>
+              <div class="work-card-cta">Visit site <span class="work-card-cta-arrow" aria-hidden="true">↗</span></div>
+            </div>
+          </div>
+        </a>
+        <a class="work-card" data-hover href="#" aria-label="View case study: Luxe Wax Studio">
+          <div class="work-card-screenshot" aria-hidden="true" style="background: linear-gradient(135deg, #2a1a14, #d9622d);"></div>
+          <div class="work-card-content">
+            <div class="work-card-meta">Case 02 / Beauty</div>
+            <div>
+              <div class="work-card-name">Luxe Wax<br/>Studio</div>
+              <div class="work-card-outcome">A premium booking experience disguised as a marketing site. Categories filter quietly, services tab in place, and the whole thing feels — <em>finally — like a real spa.</em></div>
+            </div>
+            <div class="work-card-foot">
+              <div class="work-card-tags">
+                <span class="work-card-tag">Booking flow</span>
+                <span class="work-card-tag">Animation</span>
+                <span class="work-card-tag">Luxury</span>
+              </div>
+              <div class="work-card-cta">Visit site <span class="work-card-cta-arrow" aria-hidden="true">↗</span></div>
+            </div>
+          </div>
+        </a>
+        <a class="work-card" data-hover href="#" aria-label="View case study: Over The Top Rentals">
+          <div class="work-card-screenshot" aria-hidden="true" style="background: linear-gradient(135deg, #5b2570, #f0b8d0);"></div>
+          <div class="work-card-content">
+            <div class="work-card-meta">Case 03 / Events</div>
+            <div>
+              <div class="work-card-name">Over The Top<br/>Rentals</div>
+              <div class="work-card-outcome">A loud, joyful site for inflatables, tents, and all the good-time machinery. Carousel UX, Web3Forms-powered contact, and a brand that <em>refuses to whisper.</em></div>
+            </div>
+            <div class="work-card-foot">
+              <div class="work-card-tags">
+                <span class="work-card-tag">Carousel</span>
+                <span class="work-card-tag">Web3Forms</span>
+                <span class="work-card-tag">Vibrant</span>
+              </div>
+              <div class="work-card-cta">Visit site <span class="work-card-cta-arrow" aria-hidden="true">↗</span></div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="process">
+  <div class="process-header">
+    <div class="process-eyebrow">How it works</div>
+    <h2 class="process-title">A clear contract, a real build, <em>no surprises.</em></h2>
+  </div>
+  <div class="process-grid">
+    <div class="process-step" data-hover>
+      <div class="process-step-num">01 / 30 min</div>
+      <div class="process-step-name">Discover</div>
+      <div class="process-step-desc">A short conversation. What does your business actually need this site to do? Who's it for? We sketch the structure together.</div>
+    </div>
+    <div class="process-step" data-hover>
+      <div class="process-step-num">02 / 1 wk</div>
+      <div class="process-step-name">Plan</div>
+      <div class="process-step-desc">A written proposal — pages, scope, price, timeline. No surprises later. You sign or you don't, no pressure.</div>
+    </div>
+    <div class="process-step" data-hover>
+      <div class="process-step-num">03 / 3–6 wk</div>
+      <div class="process-step-name">Build</div>
+      <div class="process-step-desc">I build, you review at two checkpoints. We refine. Real code, mobile-first, fast on weak phones, accessible.</div>
+    </div>
+    <div class="process-step" data-hover>
+      <div class="process-step-num">04 / 1 day</div>
+      <div class="process-step-name">Launch</div>
+      <div class="process-step-desc">We ship. You own the code, the domain, the hosting. I show you how to update copy. Optional ongoing support.</div>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <div class="cta-text">
+    Let's <em>make</em> something.
+  </div>
+  <a href="mailto:david@builtbylaird.com" class="cta-email" data-hover>david@builtbylaird.com</a>
+</section>
+
+<footer>
+  <div class="footer-mark">Built by <span>Laird</span>.</div>
+  <div class="footer-meta">
+    LLC · Independent studio<br/>
+    <a href="mailto:david@builtbylaird.com">david@builtbylaird.com</a><br/>
+    © 2026 Built by Laird, LLC
+  </div>
+</footer>
+
+<div class="variant-tag">Variant C · High-contrast modern</div>
+
+<script>
+  // Custom cursor
+  const cursor = document.querySelector('.cursor');
+  const cursorDot = document.querySelector('.cursor-dot');
+  let mouseX = 0, mouseY = 0;
+  let cursorX = 0, cursorY = 0;
+
+  document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+    cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+  });
+
+  function animateCursor() {
+    cursorX += (mouseX - cursorX) * 0.15;
+    cursorY += (mouseY - cursorY) * 0.15;
+    cursor.style.transform = `translate(${cursorX}px, ${cursorY}px) translate(-50%, -50%)`;
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  document.querySelectorAll('[data-hover], a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('is-hovering'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('is-hovering'));
+  });
+
+  // Hero reveal
+  window.addEventListener('load', () => {
+    requestAnimationFrame(() => {
+      document.querySelectorAll('[data-line]').forEach(el => el.classList.add('in-view'));
+      document.querySelectorAll('[data-fade]').forEach(el => el.classList.add('in-view'));
+    });
+  });
+
+  // Keyboard navigation detection
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab') document.body.classList.add('using-keyboard');
+  });
+  document.addEventListener('mousedown', () => {
+    document.body.classList.remove('using-keyboard');
+  });
+
+  // Horizontal scroll for featured work (desktop only)
+  const workWrap = document.querySelector('.work-track-wrap');
+  const workTrack = document.getElementById('workTrack');
+
+  function updateWorkScroll() {
+    if (!workWrap || !workTrack) return;
+    if (window.innerWidth <= 720) {
+      workTrack.style.transform = '';
+      return;
+    }
+    const rect = workWrap.getBoundingClientRect();
+    const total = workWrap.offsetHeight - window.innerHeight;
+    const scrolled = Math.max(0, -rect.top);
+    const progress = Math.min(1, scrolled / total);
+
+    const trackWidth = workTrack.scrollWidth;
+    const viewport = window.innerWidth;
+    const maxX = Math.max(0, trackWidth - viewport + 80);
+
+    workTrack.style.transform = `translateX(${-progress * maxX}px)`;
+  }
+  window.addEventListener('scroll', updateWorkScroll, { passive: true });
+  window.addEventListener('resize', updateWorkScroll);
+  updateWorkScroll();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Built by Laird — Tier 1 (Refined-distinctive)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #FAF8F4;
+    --bg-soft: #F2EEE6;
+    --ink: #18171A;
+    --ink-soft: #6B6660;
+    --ink-faint: #A8A39A;
+    --accent: #BA5A2C;             /* quiet, slightly muted orange */
+    --rule: rgba(24, 23, 26, 0.10);
+    --rule-soft: rgba(24, 23, 26, 0.05);
+
+    --font-display: 'Fraunces', Georgia, serif;
+    --font-body: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+
+    --max: 720px;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection { background: var(--accent); color: var(--bg); }
+  :focus { outline: none; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 2px; }
+
+  a { color: var(--accent); text-decoration: none; border-bottom: 1px solid currentColor; transition: opacity 0.2s; }
+  a:hover { opacity: 0.7; }
+  p + p { margin-top: 1em; }
+
+  .container { max-width: var(--max); margin: 0 auto; padding: 0 32px; }
+
+  /* === Top === */
+  .topbar {
+    padding: 32px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .topbar-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 14px;
+    color: var(--ink-soft);
+  }
+  .topbar-mark {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 17px;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 18;
+  }
+  .topbar-mark span { color: var(--accent); }
+  .topbar-status::before {
+    content: "";
+    display: inline-block;
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+    margin-right: 8px;
+    vertical-align: 1px;
+  }
+
+  /* === Hero === */
+  .hero {
+    padding: 120px 0 80px;
+  }
+  .hero-greeting {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin-bottom: 24px;
+    letter-spacing: 0.02em;
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    font-variation-settings: "opsz" 72;
+  }
+  .hero-title em {
+    color: var(--accent);
+    font-style: italic;
+  }
+  .hero-sub {
+    margin-top: 32px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 600px;
+  }
+
+  /* === Section header === */
+  .section { padding: 80px 0; border-top: 1px solid var(--rule); }
+  .section-eyebrow {
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-bottom: 24px;
+  }
+  .section h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 48;
+  }
+  .section h2 em { color: var(--accent); font-style: italic; }
+  .section p {
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+
+  /* === Work list — minimal === */
+  .work-list { list-style: none; }
+  .work-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: baseline;
+    transition: padding-left 0.4s var(--ease);
+  }
+  .work-row:hover { padding-left: 8px; }
+  .work-row a { color: var(--ink); border: none; }
+  .work-row-num {
+    font-size: 13px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    min-width: 32px;
+  }
+  .work-row-name {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -0.005em;
+    font-variation-settings: "opsz" 24;
+  }
+  .work-row-tag {
+    font-size: 13px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+    margin-top: 6px;
+    display: block;
+  }
+  .work-row-arrow {
+    font-size: 14px;
+    color: var(--ink-faint);
+    transition: color 0.3s, transform 0.3s var(--ease);
+  }
+  .work-row:hover .work-row-arrow { color: var(--accent); transform: translateX(4px) translateY(-2px); }
+
+  /* === Process — quiet numbered list === */
+  .process-list { list-style: none; }
+  .process-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 24px;
+    padding: 16px 0;
+    align-items: baseline;
+  }
+  .process-row + .process-row { border-top: 1px solid var(--rule-soft); }
+  .process-row-num {
+    font-size: 13px;
+    color: var(--ink-faint);
+    letter-spacing: 0.06em;
+    min-width: 32px;
+  }
+  .process-row-name {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-variation-settings: "opsz" 18;
+  }
+  .process-row-desc { font-size: 15px; color: var(--ink-soft); line-height: 1.55; }
+
+  /* === Contact === */
+  .contact { padding: 80px 0 120px; border-top: 1px solid var(--rule); }
+  .contact h2 {
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.15;
+    letter-spacing: -0.015em;
+    margin-bottom: 24px;
+    font-variation-settings: "opsz" 60;
+  }
+  .contact h2 em { color: var(--accent); font-style: italic; }
+  .contact-email {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-size: 22px;
+    color: var(--accent);
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 4px;
+    margin-top: 16px;
+    transition: opacity 0.2s;
+    font-variation-settings: "opsz" 24;
+  }
+  .contact-email:hover { opacity: 0.7; }
+
+  /* === Footer === */
+  footer {
+    padding: 32px 0;
+    border-top: 1px solid var(--rule);
+    background: var(--bg-soft);
+  }
+  .footer-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 32px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--ink-soft);
+  }
+  .footer-inner a { color: var(--ink-soft); border-bottom-color: var(--rule); }
+  .footer-inner a:hover { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* === Reveal motion (single subtle fade-in) === */
+  [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+  }
+  [data-reveal].in { opacity: 1; transform: translateY(0); }
+
+  /* === Variant tag === */
+  .variant-tag {
+    position: fixed;
+    bottom: 16px;
+    left: 16px;
+    z-index: 200;
+    font-family: var(--font-body);
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--ink-soft);
+    background: rgba(250, 248, 244, 0.85);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 80px 0 60px; }
+    .hero-title { font-size: 32px; }
+    .section h2 { font-size: 26px; }
+    .contact h2 { font-size: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.001s !important; transition-duration: 0.001s !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-mark">Built by <span>Laird</span></div>
+    <div class="topbar-status">Available</div>
+  </div>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <div class="hero-greeting" data-reveal>Hello.</div>
+    <h1 class="hero-title" data-reveal>
+      I'm David Laird, and I build websites for businesses <em>around here.</em>
+    </h1>
+    <p class="hero-sub" data-reveal>
+      Real estate, beauty, retail, services — small businesses and the people who run them. The kind of sites that <strong>show up</strong> when someone searches for you, load fast on a weak phone, and don't fall apart in two years.
+    </p>
+  </section>
+
+  <section class="section">
+    <div class="section-eyebrow" data-reveal>About</div>
+    <p data-reveal>
+      Built by Laird is an independent LLC and a studio of one. Every project is hand-built &mdash; no themes, no Wix, no template marketplaces. I work with three to four clients a year, on purpose, so each site gets the attention it deserves.
+    </p>
+    <p data-reveal>
+      I care about three things, in this order: that your customers find you, that the site looks like it belongs to your business and no one else's, and that you own everything when we're done &mdash; the code, the domain, the hosting setup, the keys.
+    </p>
+  </section>
+
+  <section class="section" id="work">
+    <div class="section-eyebrow" data-reveal>Selected work</div>
+    <ul class="work-list">
+      <li class="work-row" data-reveal>
+        <span class="work-row-num">01.</span>
+        <div>
+          <a href="#" class="work-row-name">Gloria Rossi Realty</a>
+          <span class="work-row-tag">Luxury real estate &middot; Live MLS integration &middot; 2025</span>
+        </div>
+        <span class="work-row-arrow" aria-hidden="true">↗</span>
+      </li>
+      <li class="work-row" data-reveal>
+        <span class="work-row-num">02.</span>
+        <div>
+          <a href="#" class="work-row-name">Luxe Wax Studio</a>
+          <span class="work-row-tag">Esthetician studio &middot; Booking-led marketing site &middot; 2025</span>
+        </div>
+        <span class="work-row-arrow" aria-hidden="true">↗</span>
+      </li>
+      <li class="work-row" data-reveal>
+        <span class="work-row-num">03.</span>
+        <div>
+          <a href="#" class="work-row-name">Over The Top Rentals</a>
+          <span class="work-row-tag">Party rentals &middot; Vibrant brand build &middot; 2024</span>
+        </div>
+        <span class="work-row-arrow" aria-hidden="true">↗</span>
+      </li>
+    </ul>
+  </section>
+
+  <section class="section">
+    <div class="section-eyebrow" data-reveal>How it works</div>
+    <ol class="process-list">
+      <li class="process-row" data-reveal>
+        <span class="process-row-num">01.</span>
+        <div>
+          <div class="process-row-name">Discover &middot; 30 min</div>
+          <div class="process-row-desc">A short conversation. What does your business actually need this site to do? Who's it for? We sketch the structure together.</div>
+        </div>
+      </li>
+      <li class="process-row" data-reveal>
+        <span class="process-row-num">02.</span>
+        <div>
+          <div class="process-row-name">Plan &middot; 1 week</div>
+          <div class="process-row-desc">A written proposal &mdash; pages, scope, price, timeline. No surprises later.</div>
+        </div>
+      </li>
+      <li class="process-row" data-reveal>
+        <span class="process-row-num">03.</span>
+        <div>
+          <div class="process-row-name">Build &middot; 3&ndash;6 weeks</div>
+          <div class="process-row-desc">I build, you review at two checkpoints. Real code, mobile-first, accessible, fast on weak phones.</div>
+        </div>
+      </li>
+      <li class="process-row" data-reveal>
+        <span class="process-row-num">04.</span>
+        <div>
+          <div class="process-row-name">Launch &middot; 1 day</div>
+          <div class="process-row-desc">We ship. You own the code, the domain, the hosting. Optional ongoing support.</div>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="contact">
+    <h2 data-reveal>Let's <em>talk.</em></h2>
+    <p data-reveal>
+      The shortest path to a project is an email. Tell me about your business, what you have today, and what you wish was different. I read every one and reply within a day.
+    </p>
+    <a href="mailto:david@builtbylaird.com" class="contact-email" data-reveal>david@builtbylaird.com</a>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-inner">
+    <span>Built by Laird, LLC &middot; 2026</span>
+    <span><a href="mailto:david@builtbylaird.com">david@builtbylaird.com</a></span>
+    <span>An independent local studio</span>
+  </div>
+</footer>
+
+<div class="variant-tag">Tier 1 · Refined-distinctive</div>
+
+<script>
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '-5% 0% -10% 0%' });
+  document.querySelectorAll('[data-reveal]').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
